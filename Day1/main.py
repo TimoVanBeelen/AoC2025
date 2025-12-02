@@ -23,12 +23,21 @@ if __name__ == "__main__":
         if line[0] == 'L': move = -1*int(line[1:])
         else: move = int(line[1:])
 
-        if pos == 0:
-            zero_pos += math.floor(abs(move/100))
-        else:
-            if (pos+move == 0) or (pos+move == 100): zero_pos += 1
-            else: zero_pos += round(abs(move/100))
+        # Adapt for all values larger than 100
+        while abs(move) > 100:
+            zero_pos +=1
+            if move > 0: move -= 100
+            else: move += 100
+        
+        if (move > 0) and (pos != 0) and ((pos+move)%100 <= pos):
+            zero_pos += 1
+        elif (move < 0) and (pos!= 0) and ((pos+move)%100 >= pos):
+            zero_pos += 1
+        elif (pos+move)%100 == 0:
+            zero_pos += 1
+        
+        # print(zero_pos)
         pos = (pos+move)%100
 
-    print(zero_pos)         # Too low: 3441, not correct: 5976, 4485, 6889, 6707
+    print(zero_pos)         # Too low: 3441, not correct: 5976, 4485, 6889, 6707, 7458
             
