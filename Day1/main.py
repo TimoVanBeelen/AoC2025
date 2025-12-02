@@ -3,6 +3,7 @@
 # 01-12-024
 # Timo van Beelen
 
+import math
 
 # Global variables
 FILE_NAME = "input.in"
@@ -17,10 +18,17 @@ if __name__ == "__main__":
 
     for line in input_lines:
         line = line.strip('\n')
-        if line[0] == 'L': pos = (pos-int(line[1:]))%100
-        else: pos = (pos+int(line[1:]))%100
-        if pos == 0: zero_pos += 1
-        print(pos)
 
-    print(zero_pos)
+        # Check whether to move up or down in numbers and move that amount
+        if line[0] == 'L': move = -1*int(line[1:])
+        else: move = int(line[1:])
+
+        if pos == 0:
+            zero_pos += math.floor(abs(move/100))
+        else:
+            if (pos+move == 0) or (pos+move == 100): zero_pos += 1
+            else: zero_pos += round(abs(move/100))
+        pos = (pos+move)%100
+
+    print(zero_pos)         # Too low: 3441, not correct: 5976, 4485, 6889, 6707
             
