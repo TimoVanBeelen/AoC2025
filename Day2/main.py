@@ -5,6 +5,7 @@
 
 import math
 import time
+import re
 
 # Global variables
 FILE_NAME = "input.in"
@@ -28,22 +29,22 @@ if __name__ == "__main__":
     with open(f"Day2/{FILE_NAME}", "r") as file:
         input_lines = file.readlines()
 
-    # Split the line into the seperate ranges
-    ranges = input_lines[0].split(',')
+    # Split the line into the seperate sections
+    sections = input_lines[0].split(',')
     answer = 0
 
     # Loop through each set
-    for range in ranges:
-        range = [i for i in range.split('-')]               # Split the range into the starting number and end number
-        if len(range[0])%2 != 0: range[0] = "0"+range[0]    # Add 0 to the front if numbers cannot be split right through the middle
+    for section in sections:
+        section = [i for i in section.split('-')]               # Split the section into the starting number and end number
+        if len(section[0])%2 != 0: section[0] = "0"+section[0]    # Add 0 to the front if numbers cannot be split right through the middle
 
         # Split the start number right through the middle
-        half_size = math.floor(len(range[0])/2)
-        left_half = range[0][0:half_size]
-        right_half = range[0][half_size:]
+        half_size = math.floor(len(section[0])/2)
+        left_half = section[0][0:half_size]
+        right_half = section[0][half_size:]
 
-        # While we are in range
-        while (int(left_half+right_half)) <= int(range[1]):
+        # While we are in section
+        while (int(left_half+right_half)) <= int(section[1]):
             if (left_half == right_half):                                           # If both halves are equal, add to result
                 if left_half[0] != "0": answer += int(left_half+right_half)         # Numbers starting with 0 should not be counted
                 left_half = increment_numstr(left_half)
@@ -53,5 +54,20 @@ if __name__ == "__main__":
             right_half = left_half                                                  # Right halve can never be lower than the left halve
 
     print(answer)           # Print the final answer to pt 1
+    pt1_time = time.time()
+    print("Part 1 cost " + str((pt1_time-start_time)*1000) + " ms")       # kostte 2.26 ms
 
-    print("Part 1 cost " + str((time.time()-start_time)*1000) + " ms")       # kostte 2.26 ms
+    # Nu toch maar regex...
+    answer2 = 0
+    reg_check = re.compile(r'^(\d+)\1+$')
+    for section in sections:
+        # Split into start and stop value of section
+        section = [int(i) for i in section.split('-')]
+
+        for number in range(section[0], section[1]):
+            if reg_check.match(str(number)):
+                answer2 += number
+
+    print(answer2)
+    print("Part 2 cost " + str((time.time()-pt1_time)*1000)+" ms")        # kostte 1.2 secondes       
+
