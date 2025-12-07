@@ -56,8 +56,4 @@ if __name__ == "__main__":
     print("Part 1 answer: ", count)
 
     end_pt1 = time.time()
-    print("Runtime: ", (end_pt1-start_time)*1000, " ms")        # 30.7ms, 24.3ms, 22.6ms
-
-            
-
-    
+    print("Runtime: ", (end_pt1-start_time)*1000, " ms")        # 30.7ms, 24.3ms, 22.6ms      
