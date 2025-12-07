@@ -57,3 +57,21 @@ if __name__ == "__main__":
 
     end_pt1 = time.time()
     print("Runtime: ", (end_pt1-start_time)*1000, " ms")        # 30.7ms, 24.3ms, 22.6ms      
+
+    # For part 2 a map implementation will probably work better
+    # Initialise a matrix with zeros
+    node_matrix = [[0]*len(line) for line in input_lines] 
+    node_matrix[-1] = [1 for _ in input_lines[0]]    
+
+    for line_idx in range(len(char_mat)-2, -1, -1):
+        for char_idx in range(len(char_mat[line_idx])):
+            char = char_mat[line_idx][char_idx]
+            if char is not SPLIT_CHAR:
+                node_matrix[line_idx][char_idx] = node_matrix[line_idx+1][char_idx]
+            else:
+                node_matrix[line_idx][char_idx] = node_matrix[line_idx+1][char_idx-1] + node_matrix[line_idx+1][char_idx+1]
+
+    print("Answer pt2: ", max(node_matrix[0]))
+
+    end_pt2 = time.time()
+    print("Runtime: ", (end_pt2-end_pt1)*1000, " ms")        # 25.1ms, 34.4ms, 27.9ms      
