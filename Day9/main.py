@@ -32,25 +32,25 @@ if __name__ == "__main__":
         input_lines[i] = [int(k) for k in input_lines[i].split(',')]
     
     # Maximum sized square will start with one of the outer most edges
-    max_col = max(input_lines, key=lambda x: x[0])
-    min_col = min(input_lines, key=lambda x: x[0])
-    outer_col = [point for point in input_lines if (point[0] == max_col[0] or point[0] == min_col[0])]
+    # max_col = max(input_lines, key=lambda x: x[0])
+    # min_col = min(input_lines, key=lambda x: x[0])
+    # outer_col = [point for point in input_lines if (point[0] == max_col[0] or point[0] == min_col[0])]
     
-    max_row = max(input_lines, key=lambda x: x[1])
-    min_row = min(input_lines, key=lambda x: x[1])
-    outer_row = [point for point in input_lines if (point[1] == max_row[1] or point[1] == min_row[1])]
+    # max_row = max(input_lines, key=lambda x: x[1])
+    # min_row = min(input_lines, key=lambda x: x[1])
+    # outer_row = [point for point in input_lines if (point[1] == max_row[1] or point[1] == min_row[1])]
 
-    # Take all unique points
-    outer_points = []
-    [outer_points.append(val) for val in (outer_row+outer_col) if val not in outer_points]
+    # # Take all unique points
+    # outer_points = []
+    # [outer_points.append(val) for val in (outer_row+outer_col) if val not in outer_points]
 
     areas = []
-    for point in outer_points:
-        for i in range(len(input_lines)):
+    for k in range(len(input_lines)):
+        point = input_lines[k]
+        for i in range(k, len(input_lines)):
             if input_lines[i] == point: continue
             areas.append(calc_area(point, input_lines[i]))
 
     print(max(areas))
-    print(areas)
-
-    # Too low: 3426023583
+    
+    print("Time: ", (time.time()-start_time)*1000, " ms")
