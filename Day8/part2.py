@@ -1,6 +1,6 @@
-# Day 8
+# Day 8, part 2
 # Advent of Code
-# 08-12-2025
+# 08-12-024
 # Timo van Beelen
 
 
@@ -9,9 +9,8 @@ import math
 
 
 # Global variables
-FILE_NAME = "example.in"
+FILE_NAME = "input.in"
 DIR = "Day8"
-MAX_CONN = 20
 
 
 # Calculate the Eucladian distance
@@ -41,8 +40,9 @@ if __name__ == "__main__":
 
     made_connections = 0
     circuits = [[idx] for idx in range(len(input_lines))]
-    while (made_connections < MAX_CONN):
-        print("Connections: ", made_connections)
+    last_x = []
+    while (True):
+        print("Remaining single circuits: ", len(circuits))
         # Find the new shortest path and remove from the distances
         new_connection = min(distances, key=lambda x: x[0])
         distances.pop(distances.index(new_connection))
@@ -62,12 +62,14 @@ if __name__ == "__main__":
         if i1 != i2:
             circuits[i1].extend(circuits[i2])
             del circuits[i2]
+
+        if len(circuits) == 1:
+            last_x = [input_lines[new_connection[1]][0], input_lines[new_connection[2]][0]]
+            break
         
         # New connection, yay
         made_connections += 1
 
-    circ_len = [len(c) for c in circuits]
-    circ_sort = sorted(circ_len)[::-1]
-    print("Answer part 1: ", circ_sort[0]*circ_sort[1]*circ_sort[2])
+    print("Answer part 2: ", last_x[0]*last_x[1])
 
     print("Time: ", (time.time()-start_time)*1000, " ms")           # 40 sec, ripppp
